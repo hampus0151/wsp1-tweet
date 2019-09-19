@@ -20,5 +20,7 @@ $sth = $dbh->prepare('SELECT * FROM tweet
             WHERE tweet.id =' . $tweetId);
 $sth->execute();
 $result = $sth->fetch(PDO::FETCH_ASSOC);
-print_r($result);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+
+include 'views/tweet_layout.php'
 ?>
