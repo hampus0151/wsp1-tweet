@@ -1,7 +1,4 @@
 <?php
-// tweet.php?id=3
-// tweet.php?id=<script>alert("xss")</script>
-//$tweetId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 $tweetId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 include 'include/dbinfo.php';
 try {
@@ -14,13 +11,11 @@ try {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
 }
-$sth = $dbh->prepare('SELECT * FROM tweet
+$sth = $dbh->prepare('SELECT tweet.*, users.name FROM tweet
             JOIN users
             ON tweet.user_id = users.id
             WHERE tweet.id =' . $tweetId);
 $sth->execute();
-$result = $sth->fetch(PDO::FETCH_ASSOC);
-echo "<pre>" . print_r($result, 1) . "</pre>";
-
-include 'views/tweet_layout.php'
+$row = $sth->fetch(PDO::FETCH_ASSOC);
+include 'views/tweet_layout.php';
 ?>
